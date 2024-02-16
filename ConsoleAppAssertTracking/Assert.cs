@@ -1,13 +1,15 @@
 ﻿namespace ConsoleAppAssertTracking;
 public abstract class Asset
 {
+    public string Brand { get; set; }
     public string ModelName { get; set; }
     public DateTime PurchaseDate { get; set; }
     public double Price { get; set; }
     public string Office { get; set; }
     
-    public Asset(string modelName, DateTime purchaseDate, double price, string office)
+    public Asset(string brand, string modelName, DateTime purchaseDate, double price, string office)
     {
+        Brand = brand;
         ModelName = modelName;
         PurchaseDate = purchaseDate;
         Price = price;
@@ -36,6 +38,23 @@ public abstract class Asset
         else
         {
             return ConsoleColor.White;
+        }
+    }
+    
+    public string GetCurrencyBasedOnOffice()
+    {
+        var office = this.Office.ToLower();
+        if (office == "USA")
+        {
+            return "USD";
+        }
+        else if (office == "Sweden")
+        {
+            return "SEK";
+        }
+        else
+        {
+            return "EUR";
         }
     }
 
