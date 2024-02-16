@@ -19,7 +19,7 @@ public abstract class Asset
         return (DateTime.Now - PurchaseDate).TotalDays > (3 * 365 - 90);
     }
     
-    public string GetEndOfLifeStatus()
+    public ConsoleColor GetEndOfLifeStatus()
     {
         var endOfLifeDate = PurchaseDate.AddYears(3);
         var threeMonthsBeforeEndOfLife = endOfLifeDate.AddMonths(-3);
@@ -27,15 +27,15 @@ public abstract class Asset
 
         if (DateTime.Now >= threeMonthsBeforeEndOfLife)
         {
-            return "*RED*";
+            return ConsoleColor.Red;
         }
         else if (DateTime.Now >= sixMonthsBeforeEndOfLife && DateTime.Now < threeMonthsBeforeEndOfLife)
         {
-            return "*YELLOW*";
+            return ConsoleColor.Yellow;
         }
         else
         {
-            return "";
+            return ConsoleColor.White;
         }
     }
 

@@ -20,8 +20,10 @@ class Program
         
         foreach (var asset in assets.OrderBy(a => a.GetType().Name).ThenBy(a => a.PurchaseDate))
         {
-            Console.WriteLine($"{asset.GetType().Name} {asset.ModelName} {asset.PurchaseDate} {asset.GetEndOfLifeStatus()}");
+            Console.ForegroundColor = asset.GetEndOfLifeStatus();
+            Console.WriteLine($"{asset.GetType().Name} {asset.ModelName} {asset.PurchaseDate}");
         }
+        Console.ResetColor();
     }
     
 }
