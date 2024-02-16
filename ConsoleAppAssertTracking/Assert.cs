@@ -1,4 +1,7 @@
-﻿namespace ConsoleAppAssertTracking;
+﻿using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
+namespace ConsoleAppAssertTracking;
 public abstract class Asset
 {
     public string Brand { get; set; }
@@ -56,6 +59,21 @@ public abstract class Asset
         {
             return "EUR";
         }
+    }
+    
+    public async Task<double> GetExchangeRateToSEK()
+    {
+        var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/" + this.GetCurrencyBasedOnOffice());
+        var data = await response.Content.ReadAsStringAsync();
+        var exchangeRates = JsonConvert.DeserializeObject<ExchangeRateResponse>(data);
+        return exchangeRates.Rates["SEK"];
+    }
+    
+    public async Task<double> LocalPriceToday()
+    {
+        var exchangeRate = await GetExchangeRateToSEK();
+        return this.Price * exchangeRate;
     }
 
 }
